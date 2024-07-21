@@ -1,0 +1,237 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #202124;
+    color: #e8eaed;
+}
+
+.explorer {
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #303134;
+    padding-top: 10px;
+    position: fixed;
+    height: 100%;
+    overflow-y: auto;
+    
+}
+
+.sidebar-item {
+    padding: 15px 20px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.sidebar-item i {
+    margin-right: 10px;
+}
+
+.sidebar-item:hover {
+    background-color: #525659;
+    transform: scale(1.02);
+}
+
+.sidebar-item:hover, .sidebar-item.active {
+    background-color: #3c4043;
+}
+
+.content {
+    margin-left: 250px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #303134;
+    align-items: center;
+}
+
+.tabs {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tab {
+    padding: 10px 20px;
+    background-color: #3c4043;
+    margin-right: 5px;
+    border-radius: 4px 4px 0 0;
+    cursor: pointer;
+}
+
+.tab.active {
+    background-color: #525659;
+}
+
+.tab-close {
+    margin-left: 10px;
+    cursor: pointer;
+    
+}
+
+.tab.fade-out {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#new-tab-btn {
+    padding: 5px 10px;
+    font-size: 16px;
+    background-color: #525659;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+
+.tab-content {
+    display: none;
+    padding: 20px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profile-photo img {
+    width: 500px; /* Adjusted for mobile */
+    height: auto;
+    margin-right: 15px;
+    border-radius: 20px;
+}
+
+.profile-details {
+    font-family: 'Titillium Web';
+    color: #ccc;
+    font-size: 18px;
+}
+
+.quick-access {
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.quick-access h2 {
+    margin-top: 0;
+    font-size: 24px;
+}
+
+.items {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.item {
+    width: 100px;
+    margin: 10px;
+    padding: 15px;
+    background-color: #3c4043;
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.item i {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.item span {
+    display: block;
+    font-size: 16px;
+}
+
+.item:hover {
+    background-color: #525659;
+}
+
+#new-tab-logo {
+    width: 40px; /* Adjust size as needed */
+    height: auto; /* Maintain aspect ratio */
+    margin-left: 10px; /* Adjust margin as needed */
+}
+
+
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .content {
+        margin-left: 0;
+    }
+
+    .tabs {
+        flex-direction: column;
+    }
+
+    .tab {
+        width: 100%;
+        margin-right: 0;
+        border-radius: 0;
+        margin-bottom: 5px;
+    }
+
+    .explorer {
+        height: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar-item {
+        font-size: 16px;
+        padding: 10px 15px;
+    }
+
+    .sidebar-item i {
+        margin-right: 5px;
+    }
+
+    .profile-details {
+        font-size: 16px;
+    }
+
+    .quick-access h2 {
+        font-size: 20px;
+    }
+
+    .item {
+        width: 80px;
+        margin: 5px;
+        padding: 10px;
+    }
+
+    .item i {
+        font-size: 20px;
+    }
+
+    .item span {
+        font-size: 14px;
+    }
+}

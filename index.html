@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Razqua</title>
+    <link rel="stylesheet" href="desktop.css" media="screen and (min-width: 769px)">
+    <link rel="stylesheet" href="mobile.css" media="screen and (max-width: 768px)">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="images/Logo.png">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <div class="explorer">
+        <div class="sidebar">
+            <div class="sidebar-item active" data-content="home">
+                <i class="fas fa-home"></i> Home
+            </div>
+            <div class="sidebar-item" data-content="aboutme">
+                <i class="fas fa-folder"></i> About Me
+            </div>
+            <div class="sidebar-item" data-content="resume">
+                <i class="fas fa-download"></i> Downloads Resume
+            </div>
+            <div class="sidebar-item" data-content="projects">
+                <i class="fas fa-file-alt"></i> Projects
+            </div>
+            <div class="sidebar-item" data-content="gallery">
+                <i class="fas fa-images"></i> Gallery
+            </div>
+        </div>
+        <div class="content">
+            <div class="topbar">
+                <div class="tabs">
+                    <!-- Tabs will be dynamically added here -->
+                </div>
+                <img id="new-tab-logo" src="images/Logo.png" alt="New Tab Logo">
+            </div>
+            <div id="content-area">
+                <!-- Home content -->
+                <div class="tab-content active" id="home" data-tab="Home">
+                    <div class="quick-access">
+                        <h2>Quick access</h2>
+                        <div class="items">
+                            <div class="item" data-content="aboutme">
+                                <i class="fas fa-desktop"></i>
+                                <span>About Me</span>
+                            </div>
+                            <div class="item" data-content="resume">
+                                <i class="fas fa-download"></i>
+                                <span>Downloads Resume</span>
+                            </div>
+                            <div class="item" data-content="projects">
+                                <i class="fas fa-file-alt"></i>
+                                <span>Projects</span>
+                            </div>
+                            <div class="item" data-content="gallery">
+                                <i class="fas fa-images"></i>
+                                <span>Gallery</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- About Me content -->
+                <div class="tab-content" id="aboutme" data-tab="About Me">
+                    <div class="profile-info">
+                        <div class="profile-photo">
+                            <img src="images/Desain tanpa judul (2).png" alt="Profile Photo">
+                        </div>
+                        <div class="profile-details">
+                            <h1>Mohammad Athalla Razan Novanda</h1>
+                            <p>Student</p>
+                            <p>Jakarta, Indonesia</p>
+                            <p>Instagram: Razqua</p>
+                            <p>Email: AthallaRazanNovanda@gmail.com </p>
+                        </div>
+                    </div>
+                    <div class="profile-details">
+                        <h2>My Story</h2>
+                        <p>I'm Athalla Razan, a 15-year-old aspiring developer with a passion for learning to code. Since I was a child, I've been fascinated by the wonders of technology and the innovations that are changing the world. This fascination has driven me to learn the art of coding and become part of the digital future.</p>
+                    </div>
+                </div>
+                <!-- Projects content -->
+                <div class="tab-content" id="projects" data-tab="Projects">
+                    <h2>Projects</h2>
+                    <div class="projects-list">
+                        <div class="item" data-content="projects">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Project 1: <a href="link_to_project_1">Project 1 Description</a></span>
+                        </div>
+                        <div class="item" data-content="projects">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Project 2: <a href="link_to_project_2">Project 2 Description</a></span>
+                        </div>
+                        <div class="item" data-content="projects">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Project 3: <a href="link_to_project_3">Project 3 Description</a></span>
+                        </div>
+                        <!-- Add more projects as needed -->
+                    </div>
+                </div>
+                <!-- Gallery content -->
+                <div class="tab-content" id="gallery" data-tab="Gallery">
+                    <h2>Gallery</h2>
+                    <div class="gallery-images">
+                        <img src="images/gallery1.jpg" alt="Gallery Image 1">
+                        <img src="images/gallery2.jpg" alt="Gallery Image 2">
+                        <img src="images/gallery3.jpg" alt="Gallery Image 3">
+                        <!-- Add more images as needed -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Hidden link for downloading resume -->
+    <a id="resume-download-link" href="files/Putih Hitam Profesional Curriculum Vitae Manajer Kreatif Perusahaan Resume.pdf" download="resume.pdf" style="display: none;"></a>
+</body>
+</html>
