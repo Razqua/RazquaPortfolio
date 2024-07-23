@@ -35,7 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 newTab.remove();
                 document.getElementById(contentId).classList.remove('active');
 
-                // Switch to the next tab if there's one left, or the previous tab if it's the last one
                 if (tabs.length > 1) {
                     const nextTab = tabs[tabIndex + 1] || tabs[tabIndex - 1];
                     if (nextTab) {
@@ -43,7 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
 
-                // Switch to home page if there are no other tabs open
                 if (document.querySelectorAll('.tab').length === 0) {
                     document.getElementById('home').classList.add('active');
                     document.querySelector('.sidebar-item[data-content="home"]').classList.add('active');
@@ -62,7 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
         item.addEventListener('click', () => {
             const contentId = item.getAttribute('data-content');
 
-            // If it's the "Downloads Resume" item, trigger the download
             if (contentId === 'resume') {
                 resumeDownloadLink.click();
             } else {
@@ -80,7 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
         item.addEventListener('click', () => {
             const contentId = item.getAttribute('data-content');
 
-            // If it's the "Downloads Resume" item, trigger the download
             if (contentId === 'resume') {
                 resumeDownloadLink.click();
             } else {
@@ -94,12 +90,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Open home tab by default
     document.querySelector('.sidebar-item[data-content="home"]').click();
 
-    // Click event listener for the resume download link in Quick Access
     resumeDownloadLink.addEventListener('click', event => {
-        // Stop propagation to prevent switching tabs
         event.stopPropagation();
     });
 });
