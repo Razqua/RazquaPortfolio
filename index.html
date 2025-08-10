@@ -2,112 +2,1069 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Razqua</title>
-    <link rel="stylesheet" href="desktop.css" media="screen and (min-width: 769px)">
-    <link rel="stylesheet" href="mobile.css" media="screen and (max-width: 768px)">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Razqua - Portfolio</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Logo%20%281%29-tPOTEiJiHZMV4FFZMHym6KZ7SsvPR9.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Logo%20%281%29-tPOTEiJiHZMV4FFZMHym6KZ7SsvPR9.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Logo%20%281%29-tPOTEiJiHZMV4FFZMHym6KZ7SsvPR9.png">
+    <link rel="shortcut icon" href="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Logo%20%281%29-tPOTEiJiHZMV4FFZMHym6KZ7SsvPR9.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="images/Logo.png">
-    <script defer src="script.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #4ecdc4;
+            --secondary-color: #45b7d1;
+            --accent-color: #ff6b6b;
+            --gold-color: #ffd700;
+            --text-primary: rgba(255, 255, 255, 0.95);
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --glass-bg: rgba(0, 0, 0, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.18);
+            --shadow-light: 0 8px 32px rgba(0, 0, 0, 0.37);
+            
+            --mobile-padding: 1rem;
+            --mobile-gap: 0.75rem;
+            --touch-target: 44px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+            color: var(--text-primary);
+            overflow: hidden;
+            position: relative;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            touch-action: manipulation;
+        }
+
+        .web-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            background: radial-gradient(circle at 50% 50%, rgba(78, 205, 196, 0.03) 0%, transparent 70%);
+        }
+
+        #spider-web {
+            width: 100%;
+            height: 100%;
+        }
+
+        .glass-panel {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            z-index: 100;
+            width: min(90vw, 520px);
+            max-height: 85vh;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2rem;
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow-y: auto;
+            box-shadow: var(--shadow-light);
+        }
+
+        .glass-panel.active {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border-radius: 24px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: var(--touch-target);
+            height: var(--touch-target);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            color: var(--text-primary);
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .close-btn:hover,
+        .close-btn:active {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+            margin: 0 auto 1rem;
+            display: block;
+            box-shadow: 0 8px 32px rgba(78, 205, 196, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-image:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-name {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .profile-title {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-location {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            opacity: 0.8;
+        }
+
+        .achievement-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .achievement-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--gold-color), #ffb347);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 1rem;
+            border: 3px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 8px 32px rgba(255, 215, 0, 0.3);
+        }
+
+        .achievement-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--gold-color);
+            line-height: 1.2;
+        }
+
+        .achievement-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .contact-grid {
+            display: grid;
+            gap: var(--mobile-gap);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            min-height: var(--touch-target);
+        }
+
+        .contact-item:hover,
+        .contact-item:active {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .contact-label {
+            font-weight: 600;
+            margin-right: 0.75rem;
+            min-width: 80px;
+            color: var(--text-primary);
+            flex-shrink: 0;
+        }
+
+        .contact-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            background: rgba(78, 205, 196, 0.1);
+            -webkit-tap-highlight-color: transparent;
+            word-break: break-word;
+        }
+
+        .contact-link:hover,
+        .contact-link:active {
+            color: var(--secondary-color);
+            background: rgba(69, 183, 209, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .story-text {
+            line-height: 1.7;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .achievement-list {
+            list-style: none;
+        }
+
+        .achievement-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--gold-color);
+            transition: all 0.3s ease;
+        }
+
+        .achievement-item:hover,
+        .achievement-item:active {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(4px);
+        }
+
+        .achievement-item h4 {
+            color: var(--gold-color);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .achievement-item p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .web-link {
+            stroke: rgba(255, 255, 255, 0.15);
+            stroke-width: 1.5px;
+        }
+
+        .web-node {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            filter: drop-shadow(0 0 8px rgba(78, 205, 196, 0.3));
+        }
+
+        .web-node:hover,
+        .web-node:active {
+            stroke: rgba(255, 255, 255, 0.6);
+            stroke-width: 2px;
+            filter: drop-shadow(0 0 12px rgba(78, 205, 196, 0.6));
+        }
+
+        .web-label {
+            font-family: 'Inter', sans-serif;
+            text-anchor: middle;
+            dominant-baseline: middle;
+            pointer-events: none;
+            fill: var(--text-primary);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+            user-select: none;
+            font-weight: 500;
+        }
+
+        .glass-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .glass-panel::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .glass-panel::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+        }
+
+        .glass-panel::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        
+        @media (max-width: 768px) {
+            .glass-panel {
+                width: 95vw;
+                padding: 1.5rem;
+                max-height: 90vh;
+                border-radius: 20px;
+            }
+
+            .profile-image {
+                width: 100px;
+                height: 100px;
+            }
+
+            .achievement-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 2rem;
+            }
+
+            .profile-name, .achievement-title {
+                font-size: 1.5rem;
+            }
+
+            .profile-title, .achievement-subtitle {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.1rem;
+            }
+
+            .contact-label {
+                min-width: 70px;
+                font-size: 0.9rem;
+            }
+
+            .contact-link {
+                font-size: 0.9rem;
+                padding: 0.4rem 0.6rem;
+            }
+
+            .story-text {
+                font-size: 0.9rem;
+            }
+
+            .achievement-item h4 {
+                font-size: 0.95rem;
+            }
+
+            .achievement-item p {
+                font-size: 0.85rem;
+            }
+
+            .content-section {
+                padding: 1.25rem;
+                margin-bottom: 1.25rem;
+            }
+
+            .contact-item {
+                padding: 0.875rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .contact-label {
+                min-width: auto;
+                margin-right: 0;
+            }
+
+            .contact-link {
+                align-self: stretch;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .glass-panel {
+                width: 98vw;
+                padding: 1.25rem;
+                max-height: 92vh;
+                border-radius: 16px;
+            }
+
+            .close-btn {
+                top: 0.75rem;
+                right: 0.75rem;
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+            }
+
+            .profile-image {
+                width: 90px;
+                height: 90px;
+            }
+
+            .achievement-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 1.75rem;
+            }
+
+            .profile-name, .achievement-title {
+                font-size: 1.35rem;
+            }
+
+            .profile-title, .achievement-subtitle {
+                font-size: 0.95rem;
+            }
+
+            .section-title {
+                font-size: 1rem;
+            }
+
+            .content-section {
+                padding: 1rem;
+                margin-bottom: 1rem;
+                border-radius: 12px;
+            }
+
+            .contact-item {
+                padding: 0.75rem;
+            }
+
+            .contact-label {
+                font-size: 0.85rem;
+            }
+
+            .contact-link {
+                font-size: 0.85rem;
+                padding: 0.5rem;
+            }
+
+            .story-text {
+                font-size: 0.85rem;
+                line-height: 1.6;
+            }
+
+            .achievement-item {
+                padding: 0.875rem;
+            }
+
+            .achievement-item h4 {
+                font-size: 0.9rem;
+            }
+
+            .achievement-item p {
+                font-size: 0.8rem;
+            }
+
+            .profile-header, .achievement-header {
+                margin-bottom: 1.5rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .glass-panel {
+                width: 100vw;
+                height: 100vh;
+                max-height: 100vh;
+                padding: 1rem;
+                border-radius: 0;
+                top: 0;
+                left: 0;
+                transform: scale(0);
+            }
+
+            .glass-panel.active {
+                transform: scale(1);
+            }
+
+            .profile-image {
+                width: 80px;
+                height: 80px;
+            }
+
+            .achievement-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .profile-name, .achievement-title {
+                font-size: 1.25rem;
+            }
+
+            .content-section {
+                padding: 0.875rem;
+                margin-bottom: 0.875rem;
+            }
+
+            .contact-item {
+                padding: 0.625rem;
+            }
+        }
+
+        @media (max-height: 500px) and (orientation: landscape) {
+            .glass-panel {
+                max-height: 95vh;
+                padding: 1rem;
+            }
+
+            .profile-header, .achievement-header {
+                margin-bottom: 1rem;
+            }
+
+            .profile-image {
+                width: 80px;
+                height: 80px;
+            }
+
+            .achievement-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .content-section {
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+        }
+
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .web-label {
+                text-rendering: optimizeLegibility;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --glass-bg: rgba(0, 0, 0, 0.4);
+                --glass-border: rgba(255, 255, 255, 0.2);
+            }
+        }
+
+        .brand-logo {
+            width: 24px;
+            height: 24px;
+            opacity: 0.7;
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            transition: opacity 0.3s ease;
+        }
+
+        .brand-logo:hover {
+            opacity: 1;
+        }
+    </style>
 </head>
 <body>
-    <div class="explorer">
-        <div class="sidebar">
-            <div class="sidebar-item active" data-content="home">
-                <i class="fas fa-home"></i> Home
-            </div>
-            <div class="sidebar-item" data-content="aboutme">
-                <i class="fas fa-folder"></i> About Me
-            </div>
-            <div class="sidebar-item" data-content="resume">
-                <i class="fas fa-download"></i> Downloads Resume
-            </div>
-            <div class="sidebar-item" data-content="projects">
-                <i class="fas fa-file-alt"></i> Projects
-            </div>
-            <div class="sidebar-item" data-content="gallery">
-                <i class="fas fa-images"></i> Gallery
-            </div>
-        </div>
-        <div class="content">
-            <div class="topbar">
-                <div class="tabs">
-                </div>
-                <img id="new-tab-logo" src="images/Logo.png" alt="New Tab Logo">
-            </div>
-            <div id="content-area">
-                <div class="tab-content active" id="home" data-tab="Home">
-                    <div class="quick-access">
-                        <h2>Quick access</h2>
-                        <div class="items">
-                            <div class="item" data-content="aboutme">
-                                <i class="fas fa-desktop"></i>
-                                <span>About Me</span>
-                            </div>
-                            <div class="item" data-content="resume">
-                                <i class="fas fa-download"></i>
-                                <span>Downloads Resume</span>
-                            </div>
-                            <div class="item" data-content="projects">
-                                <i class="fas fa-file-alt"></i>
-                                <span>Projects</span>
-                            </div>
-                            <div class="item" data-content="gallery">
-                                <i class="fas fa-images"></i>
-                                <span>Gallery</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-content" id="aboutme" data-tab="About Me">
-                    <div class="profile-info">
-                        <div class="profile-photo">
-                            <img src="images/Desain tanpa judul (2).png" alt="Profile Photo">
-                        </div>
-                        <div class="profile-details">
-                            <h1>Mohammad Athalla Razan Novanda</h1>
-                            <p>Student</p>
-                            <p>Jakarta, Indonesia</p>
-                            <p>Instagram: Razqua</p>
-                            <p>Email: AthallaRazanNovanda@gmail.com </p>
-                        </div>
-                    </div>
-                    <div class="profile-details">
-                        <h2>My Story</h2>
-                        <p>I'm Athalla Razan, a 15-year-old aspiring developer with a passion for learning to code. Since I was a child, I've been fascinated by the wonders of technology and the innovations that are changing the world. This fascination has driven me to learn the art of coding and become part of the digital future.</p>
-                    </div>
-                </div>
-                <div class="tab-content" id="projects" data-tab="Projects">
-                    <h2>Projects</h2>
-                    <div class="projects-list">
-                        <div class="item" data-content="projects">
-                            <i class="fas fa-file-alt"></i>
-                            <span>Project 1: <a href="link_to_project_1">Project 1 Description</a></span>
-                        </div>
-                        <div class="item" data-content="projects">
-                            <i class="fas fa-file-alt"></i>
-                            <span>Project 2: <a href="link_to_project_2">Project 2 Description</a></span>
-                        </div>
-                        <div class="item" data-content="projects">
-                            <i class="fas fa-file-alt"></i>
-                            <span>Project 3: <a href="link_to_project_3">Project 3 Description</a></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-content" id="gallery" data-tab="Gallery">
-                    <h2>Gallery</h2>
-                    <div class="gallery-images">
-                        <img src="images/gallery1.jpg" alt="Gallery Image 1">
-                        <img src="images/gallery2.jpg" alt="Gallery Image 2">
-                        <img src="images/gallery3.jpg" alt="Gallery Image 3">
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div style="display: none;">
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-06-27%20at%2008.05.37-jikDdxaYGsqzt0w5b4nQSFG1sl1P0C.jpeg" alt="Profile" id="profile-img-src">
     </div>
-    <a id="resume-download-link" href="files/Putih Hitam Profesional Curriculum Vitae Manajer Kreatif Perusahaan Resume.pdf" download="resume.pdf" style="display: none;"></a>
+
+    <div class="web-container">
+        <svg id="spider-web"></svg>
+    </div>
+
+    <div class="glass-panel" id="profile-panel">
+        <button class="close-btn" id="close-profile" aria-label="Close profile">&times;</button>
+        
+        <div class="profile-header animate-in">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-06-27%20at%2008.05.37-jikDdxaYGsqzt0w5b4nQSFG1sl1P0C.jpeg" alt="Mohammad Athalla Razan Novanda" class="profile-image">
+            <h1 class="profile-name">Mohammad Athalla Razan Novanda</h1>
+            <p class="profile-title">Student & Aspiring Developer</p>
+            <p class="profile-location">Jakarta, Indonesia</p>
+        </div>
+
+        <div class="content-section animate-in">
+            <h2 class="section-title">Connect With Me</h2>
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <span class="contact-label">Instagram:</span>
+                    <a href="https://instagram.com/razqua._" target="_blank" class="contact-link">Razqua._</a>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-label">LinkedIn:</span>
+                    <a href="https://www.linkedin.com/in/mohammad-athalla-razan-novanda-b06849333/" target="_blank" class="contact-link">Mohammad Athalla</a>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-label">Email:</span>
+                    <a href="mailto:AthallaRazanNovanda@gmail.com" class="contact-link">AthallaRazanNovanda@gmail.com</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section animate-in">
+            <h2 class="section-title">My Story</h2>
+            <p class="story-text">
+                I'm Razqua, a 16-year-old aspiring developer with a passion for learning to code. Since I was a child, I've been fascinated by the wonders of technology and the innovations that are changing the world. This fascination has driven me to learn the art of coding and become part of the digital future.
+            </p>
+        </div>
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Logo%20%281%29-tPOTEiJiHZMV4FFZMHym6KZ7SsvPR9.png" alt="Razqua Logo" class="brand-logo">
+    </div>
+
+    <div class="glass-panel" id="achievement-panel">
+        <button class="close-btn" id="close-achievement" aria-label="Close achievements">&times;</button>
+        
+        <div class="achievement-header animate-in">
+            <div class="achievement-icon">🏆</div>
+            <h1 class="achievement-title">My Achievements</h1>
+            <p class="achievement-subtitle">Milestones & Accomplishments</p>
+        </div>
+
+        <div class="content-section animate-in">
+            <h2 class="section-title">Recent Achievements</h2>
+            <ul class="achievement-list">
+                <li class="achievement-item">
+                    <h4>IYIS (International Youth Innovation Summit)</h4>
+                    <p>🥉 3rd Best Project Innovation<br>
+                       🥉 3rd Best Presentation<br>
+                       🥉 3rd Best Video Project Innovation<br>
+                       🏆 Best Team Award</p>
+                </li>
+            </ul>
+        </div>
+
+        <div class="content-section animate-in">
+            <h2 class="section-title">Professional Profile</h2>
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <span class="contact-label">LinkedIn:</span>
+                    <a href="https://www.linkedin.com/in/mohammad-athalla-razan-novanda-b06849333/" target="_blank" class="contact-link">View Full Profile</a>
+                </div>
+            </div>
+        </div>
+        <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Logo%20%281%29-tPOTEiJiHZMV4FFZMHym6KZ7SsvPR9.png" alt="Razqua Logo" class="brand-logo">
+    </div>
+
+    <script>
+        const portfolioData = {
+            nodes: [
+                { id: "Hi, I'm Razqua", group: 1, size: 25 },
+                { id: "Web Development", group: 2, size: 15 },
+                { id: "UI/UX Design", group: 2, size: 15 },
+                { id: "Achievement", group: 2, size: 15 },
+                { id: "Learning", group: 2, size: 15 },
+                { id: "Project 1", group: 3, size: 10 },
+                { id: "Project 3", group: 3, size: 10 },
+            ],
+            links: [
+                { source: "Hi, I'm Razqua", target: "Web Development", strength: 1 },
+                { source: "Hi, I'm Razqua", target: "UI/UX Design", strength: 1 },
+                { source: "Hi, I'm Razqua", target: "Achievement", strength: 1 },
+                { source: "Hi, I'm Razqua", target: "Learning", strength: 1 },
+                { source: "Web Development", target: "Project 1", strength: 0.8 },
+                { source: "UI/UX Design", target: "Project 3", strength: 0.8 },
+            ],
+        };
+
+        const colorScale = d3.scaleOrdinal()
+            .domain([1, 2, 3])
+            .range(['#ff6b6b', '#4ecdc4', '#45b7d1']);
+
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+        class PanelManager {
+            constructor() {
+                this.panels = {
+                    profile: document.getElementById('profile-panel'),
+                    achievement: document.getElementById('achievement-panel')
+                };
+                this.closeButtons = {
+                    profile: document.getElementById('close-profile'),
+                    achievement: document.getElementById('close-achievement')
+                };
+                this.init();
+            }
+
+            init() {
+                Object.keys(this.closeButtons).forEach(key => {
+                    const btn = this.closeButtons[key];
+                    btn.addEventListener('click', () => this.closePanel(key));
+                    
+                    if (isTouchDevice) {
+                        btn.addEventListener('touchstart', (e) => {
+                            e.preventDefault();
+                            btn.style.transform = 'scale(0.95)';
+                        });
+                        btn.addEventListener('touchend', (e) => {
+                            e.preventDefault();
+                            btn.style.transform = 'scale(1.1)';
+                            setTimeout(() => this.closePanel(key), 100);
+                        });
+                    }
+                });
+
+                Object.keys(this.panels).forEach(key => {
+                    this.panels[key].addEventListener('click', (e) => {
+                        if (e.target === this.panels[key]) {
+                            this.closePanel(key);
+                        }
+                    });
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        this.closeAllPanels();
+                    }
+                });
+
+                if (isMobile) {
+                    Object.keys(this.panels).forEach(key => {
+                        this.panels[key].addEventListener('touchmove', (e) => {
+                            e.stopPropagation();
+                        });
+                    });
+                }
+            }
+
+            openPanel(panelName) {
+                this.closeAllPanels();
+                
+                if (isMobile) {
+                    document.body.style.overflow = 'hidden';
+                }
+                
+                setTimeout(() => {
+                    this.panels[panelName].classList.add('active');
+                    this.animateContent(this.panels[panelName]);
+                }, 100);
+            }
+
+            closePanel(panelName) {
+                this.panels[panelName].classList.remove('active');
+                
+                if (isMobile) {
+                    document.body.style.overflow = '';
+                }
+            }
+
+            closeAllPanels() {
+                Object.keys(this.panels).forEach(key => {
+                    this.panels[key].classList.remove('active');
+                });
+                
+                if (isMobile) {
+                    document.body.style.overflow = '';
+                }
+            }
+
+            animateContent(panel) {
+                const elements = panel.querySelectorAll('.animate-in');
+                elements.forEach((el, index) => {
+                    el.style.animationDelay = `${index * 0.1}s`;
+                });
+            }
+        }
+
+        class SpiderWeb {
+            constructor() {
+                this.svg = d3.select("#spider-web");
+                this.width = window.innerWidth;
+                this.height = window.innerHeight;
+                this.simulation = null;
+                this.isMobile = window.innerWidth <= 768;
+                this.init();
+            }
+
+            init() {
+                this.svg.attr("width", this.width).attr("height", this.height);
+                this.createForces();
+                this.createElements();
+                this.setupInteractions();
+            }
+
+            createForces() {
+                // Adjust forces for mobile
+                const chargeStrength = this.isMobile ? -250 : -400;
+                const linkDistance = this.isMobile ? 80 : 120;
+                
+                this.simulation = d3.forceSimulation(portfolioData.nodes)
+                    .force("link", d3.forceLink(portfolioData.links)
+                        .id(d => d.id)
+                        .distance(d => linkDistance + (d.strength || 1) * 20)
+                        .strength(d => d.strength || 0.5))
+                    .force("charge", d3.forceManyBody().strength(chargeStrength))
+                    .force("center", d3.forceCenter(this.width / 2, this.height / 2))
+                    .force("collision", d3.forceCollide().radius(d => (d.size || 10) + 5));
+            }
+
+            createElements() {
+                this.links = this.svg.append("g")
+                    .selectAll("line")
+                    .data(portfolioData.links)
+                    .enter().append("line")
+                    .attr("class", "web-link");
+
+                this.nodes = this.svg.append("g")
+                    .selectAll("circle")
+                    .data(portfolioData.nodes)
+                    .enter().append("circle")
+                    .attr("class", "web-node")
+                    .attr("r", d => {
+                        const baseSize = d.size || 10;
+                        return this.isMobile ? Math.max(baseSize * 0.8, 8) : baseSize;
+                    })
+                    .attr("fill", d => colorScale(d.group))
+                    .attr("opacity", 0.9)
+                    .style("cursor", "pointer");
+
+                this.labels = this.svg.append("g")
+                    .selectAll("text")
+                    .data(portfolioData.nodes)
+                    .enter().append("text")
+                    .attr("class", "web-label")
+                    .text(d => d.id)
+                    .style("font-size", d => {
+                        const baseSize = Math.max(10, (d.size || 10) * 0.6);
+                        return this.isMobile ? `${Math.max(baseSize * 0.8, 8)}px` : `${baseSize}px`;
+                    })
+                    .style("font-weight", d => d.group === 1 ? "700" : "500");
+
+                this.setupDrag();
+                this.setupTick();
+            }
+
+            setupDrag() {
+                const drag = d3.drag()
+                    .on("start", this.dragStarted.bind(this))
+                    .on("drag", this.dragged.bind(this))
+                    .on("end", this.dragEnded.bind(this));
+
+                this.nodes.call(drag);
+                
+                if (isTouchDevice) {
+                    this.labels.style("pointer-events", "auto");
+                    this.labels.call(drag);
+                }
+            }
+
+            setupTick() {
+                this.simulation.on("tick", () => {
+                    this.links
+                        .attr("x1", d => d.source.x)
+                        .attr("y1", d => d.source.y)
+                        .attr("x2", d => d.target.x)
+                        .attr("y2", d => d.target.y);
+
+                    this.nodes
+                        .attr("cx", d => d.x)
+                        .attr("cy", d => d.y);
+
+                    this.labels
+                        .attr("x", d => d.x)
+                        .attr("y", d => d.y);
+                });
+            }
+
+            setupInteractions() {
+                this.nodes.on("click", (event, d) => {
+                    event.stopPropagation();
+                    this.handleNodeClick(d);
+                });
+
+                this.labels.on("click", (event, d) => {
+                    event.stopPropagation();
+                    this.handleNodeClick(d);
+                });
+
+                if (isTouchDevice) {
+                    this.nodes.on("touchstart", function(event, d) {
+                        d3.select(this).attr("opacity", 0.7);
+                    });
+                    
+                    this.nodes.on("touchend", function(event, d) {
+                        d3.select(this).attr("opacity", 0.9);
+                    });
+                }
+            }
+
+            handleNodeClick(node) {
+                if (isTouchDevice && navigator.vibrate) {
+                    navigator.vibrate(50);
+                }
+
+                switch(node.id) {
+                    case "Hi, I'm Razqua":
+                        panelManager.openPanel('profile');
+                        break;
+                    case "Achievement":
+                        panelManager.openPanel('achievement');
+                        break;
+                    case "Project 3":
+                    case "UI/UX Design":
+                    case "Web Development":
+                    case "Project 1":
+                        window.open('https://sekolahalamcikeas.sch.id/', '_blank');
+                        break;
+                    default:
+                        console.log("Clicked node:", node);
+                }
+            }
+
+            dragStarted(event, d) {
+                if (!event.active) this.simulation.alphaTarget(0.3).restart();
+                d.fx = d.x;
+                d.fy = d.y;
+            }
+
+            dragged(event, d) {
+                d.fx = event.x;
+                d.fy = event.y;
+                
+                this.labels.filter(label => label.id === d.id)
+                    .attr("x", d.fx)
+                    .attr("y", d.fy);
+            }
+
+            dragEnded(event, d) {
+                if (!event.active) this.simulation.alphaTarget(0);
+                d.fx = null;
+                d.fy = null;
+            }
+
+            resize() {
+                this.width = window.innerWidth;
+                this.height = window.innerHeight;
+                this.isMobile = this.width <= 768;
+                
+                this.svg.attr("width", this.width).attr("height", this.height);
+                this.simulation.force("center", d3.forceCenter(this.width / 2, this.height / 2));
+                
+                const chargeStrength = this.isMobile ? -250 : -400;
+                const linkDistance = this.isMobile ? 80 : 120;
+                
+                this.simulation
+                    .force("charge", d3.forceManyBody().strength(chargeStrength))
+                    .force("link", d3.forceLink(portfolioData.links)
+                        .id(d => d.id)
+                        .distance(d => linkDistance + (d.strength || 1) * 20)
+                        .strength(d => d.strength || 0.5));
+                
+                this.nodes.attr("r", d => {
+                    const baseSize = d.size || 10;
+                    return this.isMobile ? Math.max(baseSize * 0.8, 8) : baseSize;
+                });
+                
+                this.labels.style("font-size", d => {
+                    const baseSize = Math.max(10, (d.size || 10) * 0.6);
+                    return this.isMobile ? `${Math.max(baseSize * 0.8, 8)}px` : `${baseSize}px`;
+                });
+                
+                this.simulation.alpha(0.3).restart();
+            }
+        }
+
+        const panelManager = new PanelManager();
+        const spiderWeb = new SpiderWeb();
+
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                spiderWeb.resize();
+            }, 250);
+        });
+
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                spiderWeb.resize();
+            }, 500);
+        });
+
+        const img = new Image();
+        img.src = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Image%202025-06-27%20at%2008.05.37-jikDdxaYGsqzt0w5b4nQSFG1sl1P0C.jpeg';
+
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        if (isMobile) {
+            portfolioData.nodes.forEach(node => {
+                if (node.group === 3) {
+                    node.size = Math.max(node.size * 0.8, 6);
+                }
+            });
+        }
+    </script>
 </body>
 </html>
